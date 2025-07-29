@@ -102,7 +102,8 @@ class Contacto {
   // Necesito un método que me sirva para leer propiedades privadas: toJSON(){}
   toJASON() {
     return {
-      id: this.getid,
+        // notación literal:
+      id: this.getid, // === propiedad = valor === id: this.#id
       nombre: this.getnombre,
       apellido: this.getapellido,
       telefono: this.gettelefono,
