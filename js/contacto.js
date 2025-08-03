@@ -100,7 +100,7 @@ class Contacto {
   // Método para almacenar el objeto en el localstorage/sessionsstorage
   // El localstorage guarda objeto plano, no sabe guardar métodos, o sea que los getters y setters no se van a almacenar
   // Necesito un método que me sirva para leer propiedades privadas: toJSON(){}
-  toJASON() {
+  toJSON() {
     return {
         // notación literal:
       id: this.getid, // === propiedad = valor === id: this.#id
