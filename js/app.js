@@ -15,13 +15,14 @@ const inputNotas = document.getElementById("notas");
 const inputImagen = document.getElementById("imagen");
 const inputPuestoTrabajo = document.getElementById("puestoTrabajo");
 const inputEmpresa = document.getElementById("empresa");
-const agenda = [];
+const agenda = JSON.parse(localStorage.getItem("agendaKey")) || [];
 
 
 // Funnciones
 const guardarLocalstorage = () =>{
     localStorage.setItem("agendaKey", JSON.stringify(agenda))
 }
+
 const crearContacto = ()=>{
     console.log("Aquí tengo que crear el contacto")
     // todo Agregar validaciones 
@@ -32,6 +33,13 @@ const crearContacto = ()=>{
     console.log(contactoNuevo)
     // guardar la agenda en el localstorage   
     guardarLocalstorage();
+    // mostrar un mensaje al usuario final
+    // limpiar el formulario
+    limpiarFormulario()
+}
+
+function limpiarFormulario(){
+    formularioContacto.reset()
 }
 
 // manejadores de eventos
