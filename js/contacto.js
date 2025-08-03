@@ -11,7 +11,6 @@ export default class Contacto {
   #notas;
 
   constructor(
-    id,
     nombre,
     apellido,
     telefono,
@@ -22,7 +21,7 @@ export default class Contacto {
     direccion,
     notas
   ) {
-    this.#id = id;
+    this.#id = crypto.randomUUID(); // es un método, por eso va con (); es "objeto.metodo()""
     this.#nombre = nombre;
     this.#apellido = apellido;
     this.#telefono = telefono;
