@@ -56,6 +56,9 @@ const crearContacto = () => {
   });
   // limpiar el formulario
   limpiarFormulario();
+  console.log("Contacto nuevo")
+  // dibuje el contacto en la tabla
+  dibujarFila(contactoNuevo,agenda.length)
 };
 
 function limpiarFormulario() {
@@ -69,6 +72,7 @@ const cargarContactos = () => {
     agenda.map((itemContacto, indice)=> dibujarFila(itemContacto, indice +1))
   } else {
     //todo: dibujar un párrafo que diga que no tenemos contactos para mostrar
+    // todo: agregar una imagen de cuando no hay foto de contacto
   }
   // si tengo, tengo qeu dibujar las filas
 };
@@ -76,8 +80,8 @@ const cargarContactos = () => {
 const dibujarFila = (itemContacto, fila) => {
   tbody.innerHTML += `
                   <tr>
-                <th scope="row">1</th>
-                <td>${itemContacto.nombre}</td>
+                <th scope="row">${fila}</th>
+                <td>${itemContacto.nombre }</td>
                 <td>${itemContacto.apellido}</td>
                 <td>${itemContacto.telefono}</td>
                 <td>
