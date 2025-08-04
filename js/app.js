@@ -17,6 +17,9 @@ const inputNotas = document.getElementById("notas");
 const inputImagen = document.getElementById("imagen");
 const inputPuestoTrabajo = document.getElementById("puestoTrabajo");
 const inputEmpresa = document.getElementById("empresa");
+const tbody = document.querySelector("#tablaContactosBody");
+
+// Verificar si el localstorage tiene contactos, si no tiene, hago un array vacío
 const agenda = JSON.parse(localStorage.getItem("agendaKey")) || [];
 
 // Funnciones
@@ -59,6 +62,54 @@ function limpiarFormulario() {
   formularioContacto.reset();
 }
 
+const cargarContactos = () => {
+  // verificar si tengo contactos para cargar
+  if (agenda.length !== 0) {
+    // recorrer mi agenda y por cada elemento de la agenda quiero agregar una fila
+    agenda.map((itemContacto, indice)=> dibujarFila(itemContacto, indice +1))
+  } else {
+    //todo: dibujar un párrafo que diga que no tenemos contactos para mostrar
+  }
+  // si tengo, tengo qeu dibujar las filas
+};
+
+const dibujarFila = (itemContacto, fila) => {
+  tbody.innerHTML += `
+                  <tr>
+                <th scope="row">1</th>
+                <td>${itemContacto.nombre}</td>
+                <td>${itemContacto.apellido}</td>
+                <td>${itemContacto.telefono}</td>
+                <td>
+                  <img
+                    src=${itemContacto.imagen}
+                    alt=${itemContacto.nombre}
+                    class="img-thumbnail img-table"
+                  />
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-info btn-sm me-2 btn-ver-detalle"
+                  >
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-warning btn-sm me-2 btn-editar"
+                  >
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm btn-borrar"
+                  >
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>`;
+};
+
 // manejadores de eventos
 btnAgregarContacto.addEventListener("click", () => {
   modalFormularioContacto.show();
@@ -69,3 +120,5 @@ formularioContacto.addEventListener("submit", (e) => {
   // Aquí tengo que crear / editar un contacto
   crearContacto();
 });
+
+cargarContactos();
