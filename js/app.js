@@ -128,9 +128,20 @@ window.borrarContacto = (id) => {
   cancelButtonText: "Cancelar"
 }).then((result) => {
   if (result.isConfirmed) {
+    // aqui va la lógica para borrar
+    // primero tengo que buscar en qué posición está el contacto con el id que quiero borrar
+    const indiceContacto = agenda.findIndex((contacto) => contacto.id === id)
+    // con el splice borramos el elemento de determinada posición del array
+    agenda.splice(indiceContacto,1)
+    // actualizar el localstorage
+    guardarLocalstorage()
+    // actualizar la tabla
+    tbody.children[indiceContacto].remove();
+    // todo: actualizar el número de fila del array
+
     Swal.fire({
-      title: "Deleted!",
-      text: "Your file has been deleted.",
+      title: "Contacto eliminado",
+      text: "El contacto fue eliminado satisfactoriamente.",
       icon: "success"
     });
   }
