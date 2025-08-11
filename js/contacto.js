@@ -102,7 +102,7 @@ export default class Contacto {
   toJSON() {
     return {
         // notación literal:
-      id: this.getid, // === propiedad = valor === id: this.#id
+      id: this.id, // === propiedad = valor === id: this.#id
       nombre: this.nombre,
       apellido: this.apellido,
       telefono: this.telefono,

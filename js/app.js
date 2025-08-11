@@ -86,8 +86,8 @@ const dibujarFila = (itemContacto, fila) => {
                 <td>${itemContacto.telefono}</td>
                 <td>
                   <img
-                    src=${itemContacto.imagen}
-                    alt=${itemContacto.nombre}
+                    src="${itemContacto.imagen}"
+                    alt="${itemContacto.nombre}"
                     class="img-thumbnail img-table"
                   />
                 </td>
@@ -107,12 +107,35 @@ const dibujarFila = (itemContacto, fila) => {
                   <button
                     type="button"
                     class="btn btn-danger btn-sm btn-borrar"
+                    onclick="borrarContacto('${itemContacto.id}')"
                   >
                     <i class="bi bi-trash"></i>
                   </button>
                 </td>
               </tr>`;
 };
+
+// al objeto window le guardo una función que es la de borrar contacto, y esto es un método
+window.borrarContacto = (id) => {
+  Swal.fire({
+  title: "Estás seguro de elminar el contacto?",
+  text: "No puedes revertir este paso",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Borrar",
+  cancelButtonText: "Cancelar"
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire({
+      title: "Deleted!",
+      text: "Your file has been deleted.",
+      icon: "success"
+    });
+  }
+});
+}
 
 // manejadores de eventos
 btnAgregarContacto.addEventListener("click", () => {
