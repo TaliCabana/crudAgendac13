@@ -19,6 +19,7 @@ const inputPuestoTrabajo = document.getElementById("puestoTrabajo");
 const inputEmpresa = document.getElementById("empresa");
 const tbody = document.querySelector("#tablaContactosBody");
 let estoyCreando = true;
+let idContacto = null;
 
 // Verificar si el localstorage tiene contactos, si no tiene, hago un array vacío
 const agenda = JSON.parse(localStorage.getItem("agendaKey")) || [];
@@ -165,6 +166,7 @@ window.prepararContacto = (id) => {
   inputNotas.value = contactoBuscado.notas;
   inputPuestoTrabajo.value = contactoBuscado.puestoTrabajo;
   inputEmpresa.value = contactoBuscado.empresa;
+  idContacto = id;
   // Cambio la variable que controla el Crear / Editar
   estoyCreando = false;
   // Abrir el modal
@@ -173,7 +175,27 @@ window.prepararContacto = (id) => {
 
 const editarContacto = () => {
   console.log("Aquí tengo que editar");
-};
+  // Buscar en qué posición del array está el contacto con ID
+  const indiceContacto = agenda.findIndex((contacto) => contacto.id === idContacto)
+  // Modificar el contacto
+  agenda[indiceContacto].nombre = inputNombre.value;
+  agenda[indiceContacto].apellido = inputApellido.value;
+  agenda[indiceContacto].telefono = inputTelefono.value;
+  agenda[indiceContacto].direccion = inputDireccion.value;
+  agenda[indiceContacto].imagen = inputImagen.value;
+  agenda[indiceContacto].empresa = inputEmpresa.value;
+  agenda[indiceContacto].puestoTrabajo = inputPuestoTrabajo.value;
+  agenda[indiceContacto].email = inputEmail.value;
+  agenda[indiceContacto].notas = inputNotas.value;
+  // Actualizar el localstorage
+  guardarLocalstorage()
+  // Actualizar fila de la tabla
+
+  // Cerrar el modal
+  modalFormularioContacto.hide()
+}; 
+
+// todo: mostrar una ventana de sweetalert para indicar que el contacto fue editado correctamente
 
 // manejadores de eventos
 btnAgregarContacto.addEventListener("click", () => {
