@@ -18,6 +18,7 @@ const inputImagen = document.getElementById("imagen");
 const inputPuestoTrabajo = document.getElementById("puestoTrabajo");
 const inputEmpresa = document.getElementById("empresa");
 const tbody = document.querySelector("#tablaContactosBody");
+let estoyCreando = true;
 
 // Verificar si el localstorage tiene contactos, si no tiene, hago un array vacío
 const agenda = JSON.parse(localStorage.getItem("agendaKey")) || [];
@@ -56,9 +57,9 @@ const crearContacto = () => {
   });
   // limpiar el formulario
   limpiarFormulario();
-  console.log("Contacto nuevo")
+  console.log("Contacto nuevo");
   // dibuje el contacto en la tabla
-  dibujarFila(contactoNuevo,agenda.length)
+  dibujarFila(contactoNuevo, agenda.length);
 };
 
 function limpiarFormulario() {
@@ -69,7 +70,7 @@ const cargarContactos = () => {
   // verificar si tengo contactos para cargar
   if (agenda.length !== 0) {
     // recorrer mi agenda y por cada elemento de la agenda quiero agregar una fila
-    agenda.map((itemContacto, indice)=> dibujarFila(itemContacto, indice +1))
+    agenda.map((itemContacto, indice) => dibujarFila(itemContacto, indice + 1));
   } else {
     //todo: dibujar un párrafo que diga que no tenemos contactos para mostrar
     // todo: agregar una imagen de cuando no hay foto de contacto
@@ -81,7 +82,7 @@ const dibujarFila = (itemContacto, fila) => {
   tbody.innerHTML += `
                   <tr>
                 <th scope="row">${fila}</th>
-                <td>${itemContacto.nombre }</td>
+                <td>${itemContacto.nombre}</td>
                 <td>${itemContacto.apellido}</td>
                 <td>${itemContacto.telefono}</td>
                 <td>
@@ -119,67 +120,76 @@ const dibujarFila = (itemContacto, fila) => {
 // al objeto window le guardo una función que es la de borrar contacto, y esto es un método
 window.borrarContacto = (id) => {
   Swal.fire({
-  title: "Estás seguro de elminar el contacto?",
-  text: "No puedes revertir este paso",
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonColor: "#3085d6",
-  cancelButtonColor: "#d33",
-  confirmButtonText: "Borrar",
-  cancelButtonText: "Cancelar"
-}).then((result) => {
-  if (result.isConfirmed) {
-    // aqui va la lógica para borrar
-    // primero tengo que buscar en qué posición está el contacto con el id que quiero borrar
-    const indiceContacto = agenda.findIndex((contacto) => contacto.id === id)
-    // con el splice borramos el elemento de determinada posición del array
-    agenda.splice(indiceContacto,1)
-    // actualizar el localstorage
-    guardarLocalstorage()
-    // actualizar la tabla
-    tbody.children[indiceContacto].remove();
-    // todo: actualizar el número de fila del array
-     
-    Swal.fire({
-      title: "Contacto eliminado",
-      text: "El contacto fue eliminado satisfactoriamente.",
-      icon: "success"
-    });
-  }
-});
-}
+    title: "Estás seguro de elminar el contacto?",
+    text: "No puedes revertir este paso",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Borrar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // aqui va la lógica para borrar
+      // primero tengo que buscar en qué posición está el contacto con el id que quiero borrar
+      const indiceContacto = agenda.findIndex((contacto) => contacto.id === id);
+      // con el splice borramos el elemento de determinada posición del array
+      agenda.splice(indiceContacto, 1);
+      // actualizar el localstorage
+      guardarLocalstorage();
+      // actualizar la tabla
+      tbody.children[indiceContacto].remove();
+      // todo: actualizar el número de fila del array
+
+      Swal.fire({
+        title: "Contacto eliminado",
+        text: "El contacto fue eliminado satisfactoriamente.",
+        icon: "success",
+      });
+    }
+  });
+};
 
 window.prepararContacto = (id) => {
   // todo: modificar el título del formulario
   // Cargar los datos de contacto para que los vea el usuario
-  const contactoBuscado = agenda.find((contacto) => contacto.id === id)
+  const contactoBuscado = agenda.find((contacto) => contacto.id === id);
   // Mostrar los datos del contacto en el form
-    inputNombre.value = contactoBuscado.nombre
-  inputApellido.value = contactoBuscado.apellido
-  inputTelefono.value = contactoBuscado.telefono
-  inputEmail.value = contactoBuscado.email
-  inputDireccion.value = contactoBuscado.direccion
-  inputEmpresa.value = contactoBuscado.empresa
-  inputImagen.value = contactoBuscado.imagen
-  inputNotas.value =contactoBuscado.notas
-  inputPuestoTrabajo.value = contactoBuscado.puestoTrabajo
-  inputEmpresa.value = contactoBuscado.empresa
+  inputNombre.value = contactoBuscado.nombre;
+  inputApellido.value = contactoBuscado.apellido;
+  inputTelefono.value = contactoBuscado.telefono;
+  inputEmail.value = contactoBuscado.email;
+  inputDireccion.value = contactoBuscado.direccion;
+  inputEmpresa.value = contactoBuscado.empresa;
+  inputImagen.value = contactoBuscado.imagen;
+  inputNotas.value = contactoBuscado.notas;
+  inputPuestoTrabajo.value = contactoBuscado.puestoTrabajo;
+  inputEmpresa.value = contactoBuscado.empresa;
+  // Cambio la variable que controla el Crear / Editar
+  estoyCreando = false;
   // Abrir el modal
-  modalFormularioContacto.show()
-  
-}
+  modalFormularioContacto.show();
+};
 
-
+const editarContacto = () => {
+  console.log("Aquí tengo que editar");
+};
 
 // manejadores de eventos
 btnAgregarContacto.addEventListener("click", () => {
+  limpiarFormulario();
+  estoyCreando = true;
   modalFormularioContacto.show();
 });
 
 formularioContacto.addEventListener("submit", (e) => {
   e.preventDefault();
   // Aquí tengo que crear / editar un contacto
-  crearContacto();
+  if (estoyCreando) {
+    crearContacto();
+  } else {
+    editarContacto();
+  }
 });
 
 cargarContactos();
