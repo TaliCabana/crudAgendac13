@@ -38,7 +38,7 @@ const crearContacto = () => {
     inputApellido.value,
     inputTelefono.value,
     inputEmail.value,
-    inputImagen.value,
+    inputImagen.value.length !== 0 ? inputImagen.value:'https://images.pexels.com/photos/28216688/pexels-photo-28216688.png',
     inputEmpresa.value,
     inputPuestoTrabajo.value,
     inputDireccion.value,
@@ -190,7 +190,14 @@ const editarContacto = () => {
   // Actualizar el localstorage
   guardarLocalstorage()
   // Actualizar fila de la tabla
-
+const filaEditada = tbody.children[indiceContacto];
+  if (filaEditada){
+    // tr.td[posicion].img.src
+    filaEditada.children[1].textContent = agenda [indiceContacto].nombre;
+    filaEditada.children[2].textContent = agenda [indiceContacto].apellido;
+    filaEditada.children[3].textContent = agenda[indiceContacto].telefono;
+    filaEditada.children[4].children[0].src = agenda[indiceContacto].imagen;
+  }
   // Cerrar el modal
   modalFormularioContacto.hide()
 }; 
