@@ -20,6 +20,8 @@ const inputEmpresa = document.getElementById("empresa");
 const tbody = document.querySelector("#tablaContactosBody");
 let estoyCreando = true;
 let idContacto = null;
+const modalTitulo = document.getElementById("contactoModalLabel");
+
 
 // Verificar si el localstorage tiene contactos, si no tiene, hago un array vacío
 const agenda = JSON.parse(localStorage.getItem("agendaKey")) || [];
@@ -152,7 +154,8 @@ window.borrarContacto = (id) => {
 };
 
 window.prepararContacto = (id) => {
-  // todo: modificar el título del formulario
+  // modificar el título del formulario
+  modalTitulo.textContent = "Editar Contacto";
   // Cargar los datos de contacto para que los vea el usuario
   const contactoBuscado = agenda.find((contacto) => contacto.id === id);
   // Mostrar los datos del contacto en el form
@@ -202,12 +205,20 @@ const filaEditada = tbody.children[indiceContacto];
   modalFormularioContacto.hide()
 }; 
 
-// todo: mostrar una ventana de sweetalert para indicar que el contacto fue editado correctamente
+// mostrar una ventana de sweetalert para indicar que el contacto fue editado correctamente
+Swal.fire({
+  title: "Contacto editado",
+  text: `El contacto ${inputNombre.value} fue editado correctamente`,
+  icon: "success",
+  confirmButtonText: "Ok",
+});
+
 
 // manejadores de eventos
 btnAgregarContacto.addEventListener("click", () => {
   limpiarFormulario();
   estoyCreando = true;
+  modalTitulo.textContent = "Agregar Contacto";
   modalFormularioContacto.show();
 });
 
